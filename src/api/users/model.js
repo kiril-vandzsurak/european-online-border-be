@@ -10,10 +10,10 @@ const userSchema = new Schema(
     birthDate: { type: Date, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    passportNum: { type: String, required: true },
+    passportNum: { type: String, required: false },
     nationality: {
       type: String,
-      required: true,
+      required: false,
       enum: [
         "Austria",
         "Belgium",
