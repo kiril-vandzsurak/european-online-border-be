@@ -10,6 +10,7 @@ import {
   genericErrorHandler,
 } from "./errorHandlers.js";
 import userRouter from "./api/users/index.js";
+import travelRouter from "./api/travel/index.js";
 // import session from "express-session";
 
 const server = express();
@@ -27,6 +28,7 @@ server.use(express.json());
 // );
 
 server.use("/users", userRouter);
+server.use("/travelForm", travelRouter);
 
 server.use(badRequestHandler);
 server.use(unauthorizedErrorHandler);
