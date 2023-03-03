@@ -17,4 +17,20 @@ userRouter.post("/register", async (req, res, next) => {
   }
 });
 
+userRouter.post("/login", async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+    const user = await UserModel.checkCredentials(email, password);
+    if (user) {
+      const payload = { _id: user._id };
+      const accessToken = await createAccessToken(payload);
+      res.send({ accessToken });
+    } else {
+      next(createHttpError(401, "Credentials are not ok!"));
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default userRouter;

@@ -45,6 +45,7 @@ const userSchema = new Schema(
         "Estonia",
       ],
     },
+    passportPhoto: { data: Buffer, contentType: String },
   },
   { timestamps: true }
 );
