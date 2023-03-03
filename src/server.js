@@ -10,12 +10,21 @@ import {
   genericErrorHandler,
 } from "./errorHandlers.js";
 import userRouter from "./api/users/index.js";
+// import session from "express-session";
 
 const server = express();
 const port = process.env.PORT || 3001;
 
 server.use(cors());
 server.use(express.json());
+
+// server.use(
+//   session({
+//     secret: "JWT_SECRET",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
 
 server.use("/users", userRouter);
 

@@ -2,6 +2,7 @@ import express from "express";
 import UserModel from "./model.js";
 import createHttpError from "http-errors";
 import { createAccessToken } from "../../lib/auth/tools.js";
+import { JWTAuthMiddleware } from "../../lib/auth/jwtAuth.js";
 
 const userRouter = express.Router();
 
@@ -32,5 +33,36 @@ userRouter.post("/login", async (req, res, next) => {
     next(error);
   }
 });
+
+userRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const user = await UserModel.findById(req.user._id);
+    res.send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
+  try {
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      req.user._id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    res.send(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// userRouter.post("/logout", (req, res) => {
+//   res.clearCookie("accessToken"); // delete JWT token cookie
+//   console.log("accessToken");
+//   res.send("Logout successful");
+// });
 
 export default userRouter;
