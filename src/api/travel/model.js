@@ -17,6 +17,10 @@ const travelSchema = new Schema(
     carRegistrationNum: { type: String, required: false },
     dateOfCrossing: { type: Date, required: true },
     timeOfCrossing: { type: Date, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );
