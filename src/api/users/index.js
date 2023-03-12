@@ -36,6 +36,7 @@ userRouter.post("/login", async (req, res, next) => {
 
 userRouter.get("/me", JWTAuthMiddleware, async (req, res, next) => {
   try {
+    console.log(req.headers.authorization);
     const user = await UserModel.findById(req.user._id);
     res.send(user);
   } catch (error) {
