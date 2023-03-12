@@ -46,21 +46,6 @@ const userSchema = new Schema(
       ],
     },
     passportPhoto: { data: Buffer, contentType: String },
-    // travels: {
-    //   countryTo: { type: String, required: true },
-    //   wayOfCrossing: {
-    //     type: String,
-    //     required: true,
-    //     enum: ["By walk", "By car"],
-    //   },
-    //   carNumber: { type: String, required: false },
-    //   carProducer: { type: String, required: false },
-    //   drivingLicenseNum: { type: String, required: false },
-    //   carInsuranceNum: { type: String, required: false },
-    //   carRegistrationNum: { type: String, required: false },
-    //   dateOfCrossing: { type: Date, required: true },
-    //   timeOfCrossing: { type: Date, required: true },
-    // },
   },
   { timestamps: true }
 );

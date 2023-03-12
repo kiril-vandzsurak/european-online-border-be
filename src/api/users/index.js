@@ -3,6 +3,7 @@ import UserModel from "./model.js";
 import createHttpError from "http-errors";
 import { createAccessToken } from "../../lib/auth/tools.js";
 import { JWTAuthMiddleware } from "../../lib/auth/jwtAuth.js";
+import upload from "../../controllers/uploadHandler.js";
 
 const userRouter = express.Router();
 
@@ -60,10 +61,27 @@ userRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
   }
 });
 
-// userRouter.post("/logout", (req, res) => {
-//   res.clearCookie("accessToken"); // delete JWT token cookie
-//   console.log("accessToken");
-//   res.send("Logout successful");
-// });
+userRouter.post(
+  "/me/:id/photo",
+  upload.single("passportPhoto"),
+  async (req, res, next) => {
+    try {
+      const user = await UserModel.findById(req.params.id);
+      if (!req.file) {
+        throw new Error("No file uploaded");
+      }
+
+      user.passportPhoto = {
+        data: req.file.buffer,
+        contentType: req.file.mimetype,
+      };
+
+      await user.save();
+      res.status(200).send("Photo uploaded successfully");
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 export default userRouter;
