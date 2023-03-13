@@ -31,8 +31,18 @@ travelRouter.get(
 );
 
 travelRouter.post("/fulfilNewForm", JWTAuthMiddleware, async (req, res) => {
-  const { countryTo, wayOfCrossing, dateOfCrossing, timeOfCrossing, userId } =
-    req.body;
+  const {
+    countryTo,
+    wayOfCrossing,
+    carNumber,
+    carProducer,
+    dateOfCrossing,
+    drivingLicenseNum,
+    carInsuranceNum,
+    carRegistrationNum,
+    timeOfCrossing,
+    userId,
+  } = req.body;
 
   try {
     const user = await UserModel.findById(userId);
@@ -40,6 +50,11 @@ travelRouter.post("/fulfilNewForm", JWTAuthMiddleware, async (req, res) => {
     const newTravel = new TravelModel({
       countryTo,
       wayOfCrossing,
+      carNumber,
+      carProducer,
+      drivingLicenseNum,
+      carInsuranceNum,
+      carRegistrationNum,
       dateOfCrossing,
       timeOfCrossing,
       user,
