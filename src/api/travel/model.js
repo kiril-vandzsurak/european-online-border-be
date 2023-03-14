@@ -21,6 +21,7 @@ const travelSchema = new Schema(
       required: true,
       match: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
     },
+    status: { type: String, required: false },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

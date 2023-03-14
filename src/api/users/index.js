@@ -61,29 +61,6 @@ userRouter.put("/me", JWTAuthMiddleware, async (req, res, next) => {
   }
 });
 
-// userRouter.post(
-//   "/me/:id/photo",
-//   upload.single("passportPhoto"),
-//   async (req, res, next) => {
-//     try {
-//       const user = await UserModel.findById(req.params.id);
-//       if (!req.file) {
-//         throw new Error("No file uploaded");
-//       }
-
-//       user.passportPhoto = {
-//         data: req.file.buffer,
-//         contentType: req.file.mimetype,
-//       };
-
-//       await user.save();
-//       res.status(200).send(user.passportPhoto);
-//     } catch (error) {
-//       next(error);
-//     }
-//   }
-// );
-
 userRouter.post(
   "/me/:id/photo",
   upload.single("passportPhoto"),

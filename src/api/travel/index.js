@@ -14,6 +14,21 @@ travelRouter.get("/travelAdmin", async (req, res) => {
   }
 });
 
+travelRouter.put("/travelAdmin/changeStatus/:id", async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const updatedTravel = await TravelModel.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+    res.json(updatedTravel);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 travelRouter.get(
   "/userTravels/:userId/travels",
   JWTAuthMiddleware,
@@ -41,6 +56,7 @@ travelRouter.post("/fulfilNewForm", JWTAuthMiddleware, async (req, res) => {
     carInsuranceNum,
     carRegistrationNum,
     timeOfCrossing,
+    status,
     userId,
   } = req.body;
 
@@ -57,6 +73,7 @@ travelRouter.post("/fulfilNewForm", JWTAuthMiddleware, async (req, res) => {
       carRegistrationNum,
       dateOfCrossing,
       timeOfCrossing,
+      status,
       user,
     });
     await newTravel.save();
