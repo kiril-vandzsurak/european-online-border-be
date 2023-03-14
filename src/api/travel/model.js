@@ -16,7 +16,11 @@ const travelSchema = new Schema(
     carInsuranceNum: { type: String, required: false },
     carRegistrationNum: { type: String, required: false },
     dateOfCrossing: { type: Date, required: true },
-    timeOfCrossing: { type: Date, required: true },
+    timeOfCrossing: {
+      type: String,
+      required: true,
+      match: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
