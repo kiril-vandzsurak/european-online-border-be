@@ -11,10 +11,12 @@ import {
 } from "./errorHandlers.js";
 import userRouter from "./api/users/index.js";
 import travelRouter from "./api/travel/index.js";
-// import session from "express-session";
+import path from "path";
 
 const server = express();
 const port = process.env.PORT || 3001;
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 server.use(cors());
 server.use(express.json());
@@ -26,9 +28,10 @@ server.use(express.json());
 //     saveUninitialized: false,
 //   })
 // );
-
+server.set("view engine", "ejs");
 server.use("/users", userRouter);
 server.use("/travelForm", travelRouter);
+server.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 server.use(badRequestHandler);
 server.use(unauthorizedErrorHandler);

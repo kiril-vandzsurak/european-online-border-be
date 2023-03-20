@@ -91,4 +91,17 @@ userRouter.post(
   }
 );
 
+userRouter.get("/me/:id/photo", async (req, res, next) => {
+  try {
+    const user = await UserModel.findById(req.params.id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    res.render("user-photo", { imageData: user.passportPhoto });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default userRouter;
