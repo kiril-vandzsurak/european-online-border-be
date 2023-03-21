@@ -23,6 +23,7 @@ const travelSchema = new Schema(
       match: /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/,
     },
     status: { type: String, required: false },
+    reasonOfReject: { type: String, required: false, default: "" },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -34,6 +35,7 @@ const travelSchema = new Schema(
     toJSON: {
       transform: function (doc, ret) {
         ret.dateOfCrossing = formatDate(ret.dateOfCrossing);
+        //delete ret.reasonOfReject;
         delete ret.createdAt;
         delete ret.updatedAt;
         delete ret.__v;
@@ -42,6 +44,7 @@ const travelSchema = new Schema(
     toObject: {
       transform: function (doc, ret) {
         ret.dateOfCrossing = formatDate(ret.dateOfCrossing);
+        //delete ret.reasonOfReject;
         delete ret.createdAt;
         delete ret.updatedAt;
         delete ret.__v;

@@ -16,11 +16,11 @@ travelRouter.get("/travelAdmin", async (req, res) => {
 
 travelRouter.put("/travelAdmin/changeStatus/:id", async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { status, reasonOfReject } = req.body;
   try {
     const updatedTravel = await TravelModel.findByIdAndUpdate(
       id,
-      { status },
+      { status, reasonOfReject },
       { new: true }
     );
     res.json(updatedTravel);
