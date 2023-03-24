@@ -16,6 +16,7 @@ const travelSchema = new Schema(
     carInsuranceNum: { type: String, required: false },
     carVinCode: { type: String, required: false },
     carLicensePlate: { type: String, required: false },
+    travelPurpose: { type: String, required: false },
     dateOfCrossing: { type: Date, required: true },
     timeOfCrossing: {
       type: String,
