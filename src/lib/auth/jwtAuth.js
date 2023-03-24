@@ -11,7 +11,8 @@ export const JWTAuthMiddleware = async (req, res, next) => {
     );
   } else {
     try {
-      const accessToken = req.headers.authorization.replace("Bearer ", "");
+      const accessToken = req.headers.authorization.split(" ")[1];
+      console.log("Token from front-end:", accessToken); // log the token
       const payload = await verifyAccessToken(accessToken);
       req.user = {
         _id: payload._id,
