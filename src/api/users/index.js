@@ -4,6 +4,7 @@ import createHttpError from "http-errors";
 import { createAccessToken } from "../../lib/auth/tools.js";
 import { JWTAuthMiddleware } from "../../lib/auth/jwtAuth.js";
 import upload from "../../controllers/uploadHandler.js";
+import path from "path";
 
 const userRouter = express.Router();
 
@@ -71,25 +72,22 @@ userRouter.post(
         throw new Error("No file uploaded");
       }
 
-      user.passportPhoto = {
-        data: req.file.buffer,
-        contentType: req.file.mimetype,
-      };
+      const imagePath = req.file.path;
+      const imageHost = "http://localhost:3001";
+      const imageUrl = `${imageHost}/${imagePath}`;
+
+      user.passportPhoto = imageUrl;
 
       await user.save();
 
-      const responseObj = {
-        fileName: req.file.originalname,
-        contentType: req.file.mimetype,
-        data: user.passportPhoto.data,
-      };
-
-      res.status(200).send(responseObj);
+      res.status(200).send({ imageUrl });
     } catch (error) {
       next(error);
     }
   }
 );
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 userRouter.get("/me/:id/photo", async (req, res, next) => {
   try {
@@ -98,7 +96,23 @@ userRouter.get("/me/:id/photo", async (req, res, next) => {
       throw new Error("User not found");
     }
 
-    res.render("user-photo", { imageData: user.passportPhoto });
+    if (!user.passportPhoto) {
+      throw new Error("Passport photo not found for user");
+    }
+
+    console.log("userPhoto:", user.passportPhoto);
+
+    const imagePath = path.join(
+      __dirname,
+      "../../../uploads",
+      user.passportPhoto
+    );
+    console.log("imagePath:", imagePath);
+
+    const imageBuffer = await fs.promises.readFile(imagePath);
+    const imageBase64 = imageBuffer.toString("base64");
+
+    res.status(200).send({ image: imageBase64 });
   } catch (error) {
     next(error);
   }

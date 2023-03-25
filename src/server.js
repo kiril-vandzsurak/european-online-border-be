@@ -11,6 +11,7 @@ import {
 } from "./errorHandlers.js";
 import userRouter from "./api/users/index.js";
 import travelRouter from "./api/travel/index.js";
+import path from "path";
 
 const server = express();
 const port = process.env.PORT || 3001;
@@ -20,6 +21,7 @@ server.use(express.json());
 
 server.use("/users", userRouter);
 server.use("/travelForm", travelRouter);
+// server.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 server.use(badRequestHandler);
 server.use(unauthorizedErrorHandler);
